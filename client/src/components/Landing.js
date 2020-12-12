@@ -15,13 +15,13 @@ const LandingCarousel = () => {
       name: "Keep track of your tasks.",
       description: "Anything you want, we'll have it Noted.",
       image:
-        "https://res.cloudinary.com/de5gzocha/image/upload/v1607749681/Noted/LandingChecklist_sjkidn.svg",
+        "https://res.cloudinary.com/de5gzocha/image/upload/v1607811423/Noted/MindMap_jal332.svg",
     },
     {
       name: "Slick dashboard for ease of use.",
       description: "Spend less time planning, more time doing.",
       image:
-        "https://res.cloudinary.com/de5gzocha/image/upload/v1607803727/Noted/Multitasking_dhereh.svg",
+        "https://res.cloudinary.com/de5gzocha/image/upload/v1607811423/Noted/RemoteWorking_on88yi.svg",
     },
   ];
   return (
@@ -44,7 +44,7 @@ const Item = (props) => {
               <p>{props.item.description}</p>
               <Button
                 color="primary"
-                variant="outlined"
+                variant="contained"
                 className="CheckButton"
               >
                 Get Started
