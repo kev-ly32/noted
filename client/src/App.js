@@ -1,7 +1,6 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+import { Navbar, Footer } from "./components/AppBars";
 import Landing from "./components/Landing";
-import Footer from "./components/Footer";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
