@@ -19,6 +19,7 @@ import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    paddingTop: "120px",
     height: "100%",
   },
   paper: {
