@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const [open, setOpen] = React.useState(false);
+  const [notes, setNotes] = useState([]);
 
   const classes = useStyles();
 
@@ -51,8 +52,13 @@ function Dashboard(props) {
               >
                 <h1>+</h1>
               </Button>
-              <NewNoteModal open={open} setOpen={setOpen} />
-              <Note />
+              <NewNoteModal
+                open={open}
+                setOpen={setOpen}
+                notes={notes}
+                setNotes={setNotes}
+              />
+              <Note notes={notes} />
             </Box>
           </Box>
         </Grid>

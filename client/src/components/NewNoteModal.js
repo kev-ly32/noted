@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -6,35 +6,67 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  makeStyles,
 } from "@material-ui/core";
 
-function NewNoteModal({ open, setOpen }) {
+const useStyles = makeStyles((theme) => ({
+  dialogPaper: {
+    minHeight: "300px",
+    width: "300px",
+  },
+  button: {
+    borderRadius: "30px",
+  },
+}));
+
+function NewNoteModal({ open, setOpen, notes, setNotes }) {
+  const [text, setText] = useState("");
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setText(e.target.value);
+  };
+
+  const addNote = (e) => {
+    e.preventDefault();
+    setNotes([...notes, text]);
+    setText("");
+    handleClose();
+  };
+  const classes = useStyles();
   return (
     <div>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
+        classes={{ paper: classes.dialogPaper }}
       >
         <DialogTitle id="form-dialog-title">New Item</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
+            value={text}
+            onChange={handleChange}
             margin="dense"
             id="Note"
             label="Note"
             type="text"
-            multiline="true"
-            rowsMax="7"
+            multiline={true}
+            fullWidth={true}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained">
-            Add
+          <Button
+            onClick={addNote}
+            color="secondary"
+            variant="contained"
+            className={classes.button}
+          >
+            <h1>+</h1>
           </Button>
         </DialogActions>
       </Dialog>
