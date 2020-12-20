@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import Note from "./Note";
+import NewNoteModal from "./NewNoteModal";
 import { Grid, Box, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -10,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buckets: {
     width: "inherit",
+    height: "100%",
   },
   borderLeft: {
     borderLeft: "3px solid gray",
@@ -27,20 +30,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Dashboard(props) {
+  const [open, setOpen] = React.useState(false);
+
   const classes = useStyles();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div className="dashboard">
       <Grid container className={classes.container}>
-        <Grid item md={9}>
-          <Box container display="flex" justifyContent="flex-end">
-            <Box item>
-              <Button color="secondary" className={classes.button}>
+        <Grid item xs={12} md={9}>
+          <Box display="flex" justifyContent="flex-end">
+            <Box>
+              <Button
+                onClick={handleClickOpen}
+                color="secondary"
+                className={classes.button}
+              >
                 <h1>+</h1>
               </Button>
+              <NewNoteModal open={open} setOpen={setOpen} />
+              <Note />
             </Box>
           </Box>
         </Grid>
-        <Grid container md={3} className={classes.borderLeft}>
+        <Grid item xs={12} md={3} className={classes.borderLeft}>
           <Box
             display="flex"
             flexDirection="column"

@@ -7,7 +7,6 @@ import {
   Button,
   IconButton,
   Typography,
-  BottomNavigation,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -192,7 +191,7 @@ export function Footer(props) {
   const classes = useStyles();
 
   return (
-    <BottomNavigation color="secondary" className={classes.appBarBottom}>
+    <Toolbar color="secondary" className={classes.appBarBottom}>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -226,6 +225,6 @@ export function Footer(props) {
           </IconButton>
         </Box>
       </Box>
-    </BottomNavigation>
+    </Toolbar>
   );
 }
