@@ -43,7 +43,7 @@ function Dashboard(props) {
     <div className="dashboard">
       <Grid container className={classes.container}>
         <Grid item xs={12} md={9}>
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" flexDirection="column" alignItems="flex-end">
             <Box>
               <Button
                 onClick={handleClickOpen}
@@ -52,13 +52,15 @@ function Dashboard(props) {
               >
                 <h1>+</h1>
               </Button>
+            </Box>
+            <Box display="flex">
+              <Note notes={notes} />
               <NewNoteModal
                 open={open}
                 setOpen={setOpen}
                 notes={notes}
                 setNotes={setNotes}
               />
-              <Note notes={notes} />
             </Box>
           </Box>
         </Grid>

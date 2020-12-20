@@ -1,13 +1,29 @@
 import React from "react";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+  paper: {
+    minHeight: "150px",
+    minWidth: "140px",
+    maxWidth: "180px",
+    padding: "0.5rem",
+  },
+  paperBox: {
+    padding: "0.25rem",
+  },
+});
+
 function Note({ notes }) {
-  console.log(notes);
+  const classes = useStyles();
   return (
     <>
-      {notes.map((note) => (
-        <Paper>{note}</Paper>
+      {notes.map((note, noteI) => (
+        <Box className={classes.paperBox} key={noteI} alignItems="start">
+          <Paper className={classes.paper}>
+            <Typography>{note}</Typography>
+          </Paper>
+        </Box>
       ))}
     </>
   );
