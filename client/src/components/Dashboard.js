@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Note from "./Note";
 import NewNoteModal from "./NewNoteModal";
+import clsx from "clsx";
 import { Grid, Box, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     height: "100%",
+  },
+  containerBorders: {
     borderTop: "3px solid gray",
     borderBottom: "3px solid gray",
   },
@@ -41,9 +44,20 @@ function Dashboard(props) {
 
   return (
     <div className="dashboard">
-      <Grid container className={classes.container}>
-        <Grid item xs={12} md={9}>
-          <Box display="flex" flexDirection="column" alignItems="flex-end">
+      <Grid
+        container
+        className={clsx(classes.container, classes.containerBorders)}
+      >
+        <Grid item xs={12} md={9} className={classes.container}>
+          <Box
+            display="flex"
+            flexDirection="row-reverse"
+            alignItems="flex-start"
+            minHeight="100%"
+            maxHeight="100%"
+            position="relative"
+            flexWrap="wrap"
+          >
             <Box>
               <Button
                 onClick={handleClickOpen}
@@ -53,15 +67,13 @@ function Dashboard(props) {
                 <h1>+</h1>
               </Button>
             </Box>
-            <Box display="flex">
-              <Note notes={notes} />
-              <NewNoteModal
-                open={open}
-                setOpen={setOpen}
-                notes={notes}
-                setNotes={setNotes}
-              />
-            </Box>
+            <Note notes={notes} />
+            <NewNoteModal
+              open={open}
+              setOpen={setOpen}
+              notes={notes}
+              setNotes={setNotes}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} md={3} className={classes.borderLeft}>
