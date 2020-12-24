@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   container: {
     height: "100%",
+    backgroundColor: "#626262",
   },
   containerBorders: {
     borderTop: "3px solid gray",

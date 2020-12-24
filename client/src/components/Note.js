@@ -22,7 +22,7 @@ function Note({ notes }) {
   return (
     <>
       {notes.map((note, noteI) => (
-        <Draggable key={noteI} bounds="parent">
+        <Draggable key={noteI} bounds=".makeStyles-container-19">
           <Box className={classes.paperBox} alignItems="start">
             <Paper className={classes.paper}>
               <Typography>{note}</Typography>
