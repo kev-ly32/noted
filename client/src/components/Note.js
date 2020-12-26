@@ -17,15 +17,16 @@ const useStyles = makeStyles({
 });
 
 function Note({ notes }) {
+  console.log(notes);
   const classes = useStyles();
 
   return (
     <>
       {notes.map((note, noteI) => (
-        <Draggable key={noteI} bounds=".makeStyles-container-19">
+        <Draggable key={noteI} bounds="#dashContainer">
           <Box className={classes.paperBox} alignItems="start">
             <Paper className={classes.paper}>
-              <Typography>{note}</Typography>
+              <Typography>{note.text}</Typography>
             </Paper>
           </Box>
         </Draggable>

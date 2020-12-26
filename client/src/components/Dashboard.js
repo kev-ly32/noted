@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard(props) {
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = useState([]);
+  const [noteCoords, setNoteCoords] = useState({ x: "", y: "" });
 
   const classes = useStyles();
 
@@ -47,6 +48,7 @@ function Dashboard(props) {
     <div className="dashboard">
       <Grid
         container
+        id="dashContainer"
         className={clsx(classes.container, classes.containerBorders)}
       >
         <Grid item xs={12} md={9} className={classes.container}>
@@ -74,6 +76,8 @@ function Dashboard(props) {
               setOpen={setOpen}
               notes={notes}
               setNotes={setNotes}
+              noteCoords={noteCoords}
+              setNoteCoords={setNoteCoords}
             />
           </Box>
         </Grid>
