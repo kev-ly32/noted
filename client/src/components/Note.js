@@ -16,16 +16,24 @@ const useStyles = makeStyles({
   },
 });
 
-function Note({ notes }) {
-  console.log(notes);
+function Note({ notes, setNotes }) {
+  let newNotes = [...notes];
+
   const classes = useStyles();
 
   return (
     <>
       {notes.map((note, noteI) => (
-        <Draggable key={noteI} bounds="#dashContainer">
+        <Draggable
+          onStop={(e, data) => {
+            newNotes[noteI] = { ...note, x: data.x, y: data.y };
+            setNotes(newNotes);
+          }}
+          key={noteI}
+          bounds="#dashContainer"
+        >
           <Box className={classes.paperBox} alignItems="start">
-            <Paper className={classes.paper}>
+            <Paper id={noteI} className={classes.paper}>
               <Typography>{note.text}</Typography>
             </Paper>
           </Box>

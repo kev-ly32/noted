@@ -36,10 +36,7 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard(props) {
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = useState([]);
-  const [noteCoords, setNoteCoords] = useState({ x: "", y: "" });
-
   const classes = useStyles();
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -70,14 +67,12 @@ function Dashboard(props) {
                 <h1>+</h1>
               </Button>
             </Box>
-            <Note notes={notes} />
+            <Note setNotes={setNotes} notes={notes} />
             <NewNoteModal
               open={open}
               setOpen={setOpen}
               notes={notes}
               setNotes={setNotes}
-              noteCoords={noteCoords}
-              setNoteCoords={setNoteCoords}
             />
           </Box>
         </Grid>

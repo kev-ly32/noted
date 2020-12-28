@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -19,16 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewNoteModal({
-  open,
-  setOpen,
-  notes,
-  setNotes,
-  noteCoords,
-  setNoteCoords,
-}) {
+function NewNoteModal({ open, setOpen, notes, setNotes }) {
   const [text, setText] = useState("");
-  const noteRef = useRef(null);
   const handleClose = () => {
     setOpen(false);
   };
@@ -40,7 +32,7 @@ function NewNoteModal({
 
   const addNote = (e) => {
     e.preventDefault();
-    setNotes([...notes, { text, x: "", y: "" }]);
+    setNotes([...notes, { text, x: 0, y: 0 }]);
     setText("");
     handleClose();
   };
