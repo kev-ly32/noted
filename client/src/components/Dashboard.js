@@ -48,12 +48,11 @@ function Dashboard(props) {
         id="dashContainer"
         className={clsx(classes.container, classes.containerBorders)}
       >
-        <Grid item xs={12} md={9} className={classes.container}>
+        <Grid item xs={9} className={classes.container}>
           <Box
             display="flex"
             flexDirection="row-reverse"
             alignItems="flex-start"
-            minHeight="100%"
             maxHeight="100%"
             position="relative"
             flexWrap="wrap"
@@ -76,7 +75,7 @@ function Dashboard(props) {
             />
           </Box>
         </Grid>
-        <Grid item xs={12} md={3} className={classes.borderLeft}>
+        <Grid item xs={3} className={classes.borderLeft}>
           <Box
             display="flex"
             flexDirection="column"
