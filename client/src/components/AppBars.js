@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
   Box,
+  Grid,
   Button,
   IconButton,
   Typography,
+  Popover,
+  TextField,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -85,12 +88,30 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   },
+  signIn: {
+    padding: "20px",
+    maxWidth: "300px",
+  },
+  submit: {
+    margin: theme.spacing(2, 0, 0),
+  },
 }));
 
 export function Navbar(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = (e) => {
+    setAnchorEl(null);
+  };
+
+  const openPopover = Boolean(anchorEl);
+  const id = openPopover ? "simple-popover" : undefined;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -127,7 +148,60 @@ export function Navbar(props) {
               </Link>
             </Box>
             <Box display="flex" alignItems="center">
-              <Button color="inherit">Sign In</Button>
+              <Button color="inherit" onClick={handleClick}>
+                Sign In
+              </Button>
+              <Popover
+                id={id}
+                open={openPopover}
+                onClose={handleClose}
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                classes={{ paper: classes.signIn }}
+              >
+                <Typography component="h1" variant="h5">
+                  Sign In
+                </Typography>
+                <form className={classes.form} noValidate>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
+                        fullWidth
+                        required
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
+                        fullWidth
+                        required
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                      />
+                    </Grid>
+                  </Grid>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Sign In
+                  </Button>
+                </form>
+              </Popover>
               <Button color="inherit">Register</Button>
             </Box>
           </Box>
