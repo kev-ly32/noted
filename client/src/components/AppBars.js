@@ -163,7 +163,7 @@ export function Navbar(props) {
                 }}
                 classes={{ paper: classes.signIn }}
               >
-                <Typography component="h1" variant="h5">
+                <Typography gutterBottom component="h1" variant="h5">
                   Sign In
                 </Typography>
                 <form className={classes.form} noValidate>

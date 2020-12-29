@@ -1,0 +1,24 @@
+{
+  "name": "noted",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react-draggable": "^4.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kev-ly32/noted.git"
+  },
+  "author": "Kevin Ly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kev-ly32/noted/issues"
+  },
+  "homepage": "https://github.com/kev-ly32/noted#readme"
+}
