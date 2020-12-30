@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "pg": "^8.5.1",
     "react-draggable": "^4.4.3"
   },
   "devDependencies": {},
