@@ -120,6 +120,7 @@ export function Navbar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
   return (
     <div className={classes.root}>
       <CssBaseline />

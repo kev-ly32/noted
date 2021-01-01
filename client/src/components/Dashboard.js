@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Note from "./Note";
 import NewNoteModal from "./NewNoteModal";
 import clsx from "clsx";
@@ -40,6 +40,15 @@ function Dashboard(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await fetch("/data");
+      const data = await response.json();
+      console.log(data);
+    };
+    getData();
+  }, []);
 
   return (
     <div className="dashboard">
