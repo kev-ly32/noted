@@ -32,7 +32,7 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
 
   const addNote = (e) => {
     e.preventDefault();
-    setNotes([...notes, { text, x: 0, y: 0 }]);
+    setNotes([...notes, { text, xPos: 0, yPos: 0 }]);
     setText("");
     handleClose();
   };

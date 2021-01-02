@@ -26,7 +26,7 @@ function Note({ notes, setNotes }) {
       {notes.map((note, noteI) => (
         <Draggable
           onStop={(e, data) => {
-            newNotes[noteI] = { ...note, x: data.x, y: data.y };
+            newNotes[noteI] = { ...note, xPos: data.x, yPos: data.y };
             setNotes(newNotes);
           }}
           key={noteI}

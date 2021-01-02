@@ -43,13 +43,14 @@ function Dashboard(props) {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("/data");
+      const response = await fetch("/notes");
       const data = await response.json();
-      console.log(data);
+      console.log(data.notes);
+      setNotes(data.notes);
     };
     getData();
   }, []);
-
+  console.log(notes);
   return (
     <div className="dashboard">
       <Grid
