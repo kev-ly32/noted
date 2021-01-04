@@ -49,8 +49,7 @@ function Dashboard(props) {
       setNotes(data.notes);
     };
     getData();
-  }, []);
-  console.log(notes);
+  }, [open]);
   return (
     <div className="dashboard">
       <Grid

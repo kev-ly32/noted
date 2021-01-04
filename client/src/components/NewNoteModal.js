@@ -30,9 +30,20 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
     setText(e.target.value);
   };
 
-  const addNote = (e) => {
+  const addNote = async (e) => {
     e.preventDefault();
-    setNotes([...notes, { text, xPos: 0, yPos: 0 }]);
+
+    try {
+      const response = await fetch("/notes", {
+        method: "POST",
+        body: JSON.stringify({ id: 4, text, xPos: 0, yPos: 0 }),
+        headers: { "Content-type": "application/json" },
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
     setText("");
     handleClose();
   };

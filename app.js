@@ -13,14 +13,19 @@ app.use(express.json());
 app.get("/notes", async (req, res) => {
   const data = await db.query("SELECT * FROM users");
   const [user] = data.rows;
-  res.json(user);
+  res.status(200).json(user);
 });
 
 app.post("/notes", async (req, res) => {
-  const data = await db.query(
-    "UPDATE notes SET notes = APPEND_ARRAY(notes, $1, [note])"
-  );
-  res.json(data.rows);
+  const note = req.body;
+  try {
+    const data = await db.query("UPDATE users SET notes = notes || $1", [note]);
+    console.log(data);
+    res.status(200).json({ msg: "Added new note" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error. Note not added" });
+  }
 });
 
 app.put("/notes/:noteid", async (req, res) => {
