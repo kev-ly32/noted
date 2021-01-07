@@ -36,11 +36,11 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
     try {
       const response = await fetch("/notes", {
         method: "POST",
-        body: JSON.stringify({ text, xPos: 0, yPos: 0, user_id: 1 }),
+        body: JSON.stringify({ text, xPos: 0, yPos: 0, user_id: 3 }),
         headers: { "Content-type": "application/json" },
       });
       const data = await response.json();
-      console.log(data);
+      setNotes([...notes, data.data]);
     } catch (error) {
       console.log(error);
     }

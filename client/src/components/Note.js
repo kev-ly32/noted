@@ -36,8 +36,24 @@ const useStyles = makeStyles({
 
 function Note({ notes, setNotes }) {
   let newNotes = [...notes];
-
   const classes = useStyles();
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const note_id = e.currentTarget.id;
+    try {
+      await fetch(`/notes/${note_id}`, {
+        method: "DELETE",
+      });
+
+      const remainingNotes = notes.filter(
+        (note) => note.note_id !== Number(note_id)
+      );
+      setNotes(remainingNotes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -45,7 +61,6 @@ function Note({ notes, setNotes }) {
         <Draggable
           onStop={(e, data) => {
             newNotes[noteI] = { ...note, xpos: data.x, ypos: data.y };
-            console.log(newNotes);
             setNotes(newNotes);
           }}
           key={note.note_id}
@@ -61,13 +76,16 @@ function Note({ notes, setNotes }) {
                 className={classes.paperButtons}
               >
                 <IconButton
+                  id={note.note_id}
                   color="secondary"
                   className={classes.delete}
                   size="small"
+                  onClick={handleDelete}
                 >
                   <DeleteIcon />
                 </IconButton>
                 <IconButton
+                  id={note.note_id}
                   color="secondary"
                   className={classes.edit}
                   size="small"

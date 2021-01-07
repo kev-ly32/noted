@@ -11,23 +11,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/notes", async (req, res) => {
-  const data = await db.query(
-    "SELECT * FROM users LEFT JOIN notes ON users.id = notes.user_id WHERE id = 3;"
-  );
-  const notes = data.rows;
-  res.status(200).json(notes);
+  try {
+    const data = await db.query(
+      "SELECT * FROM users INNER JOIN notes ON users.id = notes.user_id WHERE id = 3;"
+    );
+    const notes = data.rows;
+    res.status(200).json(notes);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error. Failed to retrieve notes." });
+  }
 });
 
 app.post("/notes", async (req, res) => {
   const { text, xPos, yPos, user_id } = req.body;
-  console.log(text, xPos, yPos, user_id);
   try {
     const data = await db.query(
-      "INSERT INTO notes (text, xpos, ypos, user_id) VALUES($1, $2, $3, $4)",
+      "INSERT INTO notes (text, xpos, ypos, user_id) VALUES($1, $2, $3, $4) RETURNING *",
       [text, xPos, yPos, user_id]
     );
-    console.log(data);
-    res.status(200).json({ msg: "Added new note" });
+    console.log(data.rows[0]);
+    res.status(200).json({ msg: "Added new note", data: data.rows[0] });
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Error. Note not added" });
@@ -42,8 +46,15 @@ app.put("/notes/:noteid", async (req, res) => {
 });
 
 app.delete("/notes/:noteid", async (req, res) => {
-  const data = await db.query("SELECT * FROM users");
-  res.json(data.rows);
+  const note_id = req.params.noteid;
+
+  try {
+    await db.query("DELETE FROM notes WHERE note_id = $1", [note_id]);
+    res.status(200).json({ msg: "Note was deleted" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error. Could not delete." });
+  }
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}`));

@@ -34,22 +34,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Dashboard(props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState([]);
   const classes = useStyles();
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const getData = async () => {
+    const response = await fetch("/notes");
+    const notes = await response.json();
+    setNotes(notes);
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch("/notes");
-      const notes = await response.json();
-      console.log(notes);
-      setNotes(notes);
-    };
     getData();
-  }, [open]);
+  }, []);
   return (
     <div className="dashboard">
       <Grid
