@@ -44,9 +44,9 @@ function Dashboard(props) {
   useEffect(() => {
     const getData = async () => {
       const response = await fetch("/notes");
-      const data = await response.json();
-      console.log(data.notes);
-      setNotes(data.notes);
+      const notes = await response.json();
+      console.log(notes);
+      setNotes(notes);
     };
     getData();
   }, [open]);

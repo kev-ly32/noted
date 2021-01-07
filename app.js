@@ -11,15 +11,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/notes", async (req, res) => {
-  const data = await db.query("SELECT * FROM users");
-  const [user] = data.rows;
-  res.status(200).json(user);
+  const data = await db.query(
+    "SELECT * FROM users LEFT JOIN notes ON users.id = notes.user_id WHERE id = 3;"
+  );
+  const notes = data.rows;
+  res.status(200).json(notes);
 });
 
 app.post("/notes", async (req, res) => {
-  const note = req.body;
+  const { text, xPos, yPos, user_id } = req.body;
+  console.log(text, xPos, yPos, user_id);
   try {
-    const data = await db.query("UPDATE users SET notes = notes || $1", [note]);
+    const data = await db.query(
+      "INSERT INTO notes (text, xpos, ypos, user_id) VALUES($1, $2, $3, $4)",
+      [text, xPos, yPos, user_id]
+    );
     console.log(data);
     res.status(200).json({ msg: "Added new note" });
   } catch (error) {

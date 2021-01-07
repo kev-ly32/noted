@@ -44,14 +44,15 @@ function Note({ notes, setNotes }) {
       {notes.map((note, noteI) => (
         <Draggable
           onStop={(e, data) => {
-            newNotes[noteI] = { ...note, xPos: data.x, yPos: data.y };
+            newNotes[noteI] = { ...note, xpos: data.x, ypos: data.y };
+            console.log(newNotes);
             setNotes(newNotes);
           }}
-          key={noteI}
+          key={note.note_id}
           bounds="#dashContainer"
         >
           <Box className={classes.paperBox} alignItems="start">
-            <Paper id={noteI} className={classes.paper}>
+            <Paper id={note.note_id} className={classes.paper}>
               <Typography>{note.text}</Typography>
               <Box
                 alignItems="flex-end"
