@@ -39,10 +39,24 @@ app.post("/notes", async (req, res) => {
 });
 
 app.put("/notes/:noteid", async (req, res) => {
-  const data = await db.query(
-    "UPDATE notes SET xPos = $1 ,[x], yPos = $2, [y] WHERE"
-  );
-  res.json(data.rows);
+  const note_id = req.params.noteid;
+  const { xpos, ypos } = req.body;
+  try {
+    const data = await db.query(
+      "UPDATE notes SET xPos = $1, yPos = $2 WHERE note_id = $3",
+      [xpos, ypos, note_id]
+    );
+    console.log(data);
+    res.status(200).json({ msg: "Updated note" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error. Note not updated" });
+  }
+
+  // const data = await db.query(
+  //   "UPDATE notes SET xPos = $1 ,[x], yPos = $2, [y] WHERE"
+  // );
+  // res.json(data.rows);
 });
 
 app.delete("/notes/:noteid", async (req, res) => {

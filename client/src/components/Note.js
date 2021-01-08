@@ -17,7 +17,6 @@ const useStyles = makeStyles({
   paperBox: {
     padding: "0.25rem",
   },
-  paperButtons: {},
   delete: {
     opacity: 0.12,
     "&:hover": {
@@ -59,12 +58,26 @@ function Note({ notes, setNotes }) {
     <>
       {notes.map((note, noteI) => (
         <Draggable
-          onStop={(e, data) => {
-            newNotes[noteI] = { ...note, xpos: data.x, ypos: data.y };
-            setNotes(newNotes);
+          onStop={async (e, data) => {
+            e.preventDefault();
+            let xpos = data.x;
+            let ypos = data.y;
+            try {
+              await fetch(`/notes/${note.note_id}`, {
+                method: "PUT",
+                body: JSON.stringify({ xpos, ypos }),
+                headers: { "Content-type": "application/json" },
+              });
+              newNotes[noteI] = { ...note, xpos, ypos };
+              console.log(newNotes);
+              setNotes(newNotes);
+            } catch (err) {
+              console.log(err);
+            }
           }}
           key={note.note_id}
           bounds="#dashContainer"
+          defaultPosition={{ x: note.xpos, y: note.ypos }}
         >
           <Box className={classes.paperBox} alignItems="start">
             <Paper id={note.note_id} className={classes.paper}>
