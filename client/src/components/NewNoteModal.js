@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -19,10 +19,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewNoteModal({ open, setOpen, notes, setNotes }) {
+function NewNoteModal({
+  open,
+  setOpen,
+  notes,
+  setNotes,
+  editMode,
+  setEditMode,
+  notePlaceholder,
+}) {
   const [text, setText] = useState("");
   const handleClose = () => {
     setOpen(false);
+    setEditMode(false);
+    setText("");
   };
 
   const handleChange = (e) => {
@@ -47,7 +57,13 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
     setText("");
     handleClose();
   };
+
+  useEffect(() => {
+    setText(notePlaceholder);
+  }, [notePlaceholder]);
+
   const classes = useStyles();
+
   return (
     <div>
       <Dialog
@@ -56,7 +72,9 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
         aria-labelledby="form-dialog-title"
         classes={{ paper: classes.dialogPaper }}
       >
-        <DialogTitle id="form-dialog-title">New Item</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {editMode ? "Edit Note" : "New Item"}
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -77,7 +95,7 @@ function NewNoteModal({ open, setOpen, notes, setNotes }) {
             variant="contained"
             className={classes.button}
           >
-            <h1>+</h1>
+            {editMode ? <h3>Update</h3> : <h1>+</h1>}
           </Button>
         </DialogActions>
       </Dialog>

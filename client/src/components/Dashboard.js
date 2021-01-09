@@ -35,11 +35,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const [open, setOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [notePlaceholder, setNotePlaceholder] = useState("");
   const classes = useStyles();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const getData = async () => {
     const response = await fetch("/notes");
     const notes = await response.json();
@@ -74,12 +78,21 @@ function Dashboard(props) {
                 <h1>+</h1>
               </Button>
             </Box>
-            <Note setNotes={setNotes} notes={notes} />
+            <Note
+              handleClickOpen={handleClickOpen}
+              setNotes={setNotes}
+              notes={notes}
+              setEditMode={setEditMode}
+              setNotePlaceholder={setNotePlaceholder}
+            />
             <NewNoteModal
               open={open}
               setOpen={setOpen}
               notes={notes}
               setNotes={setNotes}
+              editMode={editMode}
+              setEditMode={setEditMode}
+              notePlaceholder={notePlaceholder}
             />
           </Box>
         </Grid>

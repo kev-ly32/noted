@@ -30,7 +30,6 @@ app.post("/notes", async (req, res) => {
       "INSERT INTO notes (text, xpos, ypos, user_id) VALUES($1, $2, $3, $4) RETURNING *",
       [text, xPos, yPos, user_id]
     );
-    console.log(data.rows[0]);
     res.status(200).json({ msg: "Added new note", data: data.rows[0] });
   } catch (error) {
     console.log(error);

@@ -33,7 +33,13 @@ const useStyles = makeStyles({
   },
 });
 
-function Note({ notes, setNotes }) {
+function Note({
+  notes,
+  setNotes,
+  setEditMode,
+  handleClickOpen,
+  setNotePlaceholder,
+}) {
   let newNotes = [...notes];
   const classes = useStyles();
 
@@ -52,6 +58,12 @@ function Note({ notes, setNotes }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleEdit = (notePlaceholder) => {
+    setEditMode(true);
+    handleClickOpen();
+    setNotePlaceholder(notePlaceholder);
   };
 
   return (
@@ -102,6 +114,7 @@ function Note({ notes, setNotes }) {
                   color="secondary"
                   className={classes.edit}
                   size="small"
+                  onClick={() => handleEdit(note.text)}
                 >
                   <EditIcon />
                 </IconButton>
