@@ -37,7 +37,7 @@ function Dashboard(props) {
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [notes, setNotes] = useState([]);
-  const [notePlaceholder, setNotePlaceholder] = useState("");
+  const [notePlaceholder, setNotePlaceholder] = useState({ text: "", id: "" });
   const classes = useStyles();
 
   const handleClickOpen = () => {

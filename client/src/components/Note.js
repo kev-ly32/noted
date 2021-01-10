@@ -91,7 +91,11 @@ function Note({
           bounds="#dashContainer"
           defaultPosition={{ x: note.xpos, y: note.ypos }}
         >
-          <Box className={classes.paperBox} alignItems="start">
+          <Box
+            className={classes.paperBox}
+            alignItems="start"
+            style={{ position: "absolute" }}
+          >
             <Paper id={note.note_id} className={classes.paper}>
               <Typography>{note.text}</Typography>
               <Box
@@ -114,7 +118,14 @@ function Note({
                   color="secondary"
                   className={classes.edit}
                   size="small"
-                  onClick={() => handleEdit(note.text)}
+                  onClick={() =>
+                    handleEdit({
+                      text: note.text,
+                      id: note.note_id,
+                      xpos: note.xpos,
+                      ypos: note.ypos,
+                    })
+                  }
                 >
                   <EditIcon />
                 </IconButton>

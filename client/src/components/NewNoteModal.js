@@ -40,17 +40,37 @@ function NewNoteModal({
     setText(e.target.value);
   };
 
-  const addNote = async (e) => {
+  const addEditNote = async (e) => {
     e.preventDefault();
+    let route = "/notes";
+    let method = "POST";
+    let noteData = { text, xPos: 0, yPos: 0, user_id: 3 };
+    if (editMode) {
+      route = `/notes/${notePlaceholder.id}`;
+      method = "PUT";
+      noteData = {
+        text,
+        xPos: notePlaceholder.xpos,
+        yPos: notePlaceholder.ypos,
+      };
+    }
 
     try {
-      const response = await fetch("/notes", {
-        method: "POST",
-        body: JSON.stringify({ text, xPos: 0, yPos: 0, user_id: 3 }),
+      const response = await fetch(route, {
+        method,
+        body: JSON.stringify(noteData),
         headers: { "Content-type": "application/json" },
       });
       const data = await response.json();
-      setNotes([...notes, data.data]);
+      console.log(data);
+      if (data.data.user_id) {
+        setNotes([...notes, data.data]);
+      } else {
+        let index = notes.findIndex((note) => note.note_id === data.data.id);
+        let newNotes = [...notes];
+        newNotes[index] = { ...newNotes[index], text: data.data.text };
+        setNotes(newNotes);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +79,8 @@ function NewNoteModal({
   };
 
   useEffect(() => {
-    setText(notePlaceholder);
+    console.log(notePlaceholder);
+    setText(notePlaceholder.text);
   }, [notePlaceholder]);
 
   const classes = useStyles();
@@ -90,7 +111,7 @@ function NewNoteModal({
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={addNote}
+            onClick={addEditNote}
             color="secondary"
             variant="contained"
             className={classes.button}
