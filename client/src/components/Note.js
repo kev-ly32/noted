@@ -81,7 +81,6 @@ function Note({
                 headers: { "Content-type": "application/json" },
               });
               newNotes[noteI] = { ...note, xpos, ypos };
-              console.log(newNotes);
               setNotes(newNotes);
             } catch (err) {
               console.log(err);

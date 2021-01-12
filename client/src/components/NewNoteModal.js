@@ -62,7 +62,6 @@ function NewNoteModal({
         headers: { "Content-type": "application/json" },
       });
       const data = await response.json();
-      console.log(data);
       if (data.data.user_id) {
         setNotes([...notes, data.data]);
       } else {
@@ -79,7 +78,6 @@ function NewNoteModal({
   };
 
   useEffect(() => {
-    console.log(notePlaceholder);
     setText(notePlaceholder.text);
   }, [notePlaceholder]);
 
