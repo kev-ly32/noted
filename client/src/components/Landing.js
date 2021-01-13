@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -8,8 +8,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -41,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: {
+    color: "red",
+  },
 }));
 
 const LandingCarousel = () => {
@@ -58,6 +60,7 @@ const LandingCarousel = () => {
         "https://res.cloudinary.com/de5gzocha/image/upload/v1607811423/Noted/RemoteWorking_on88yi.svg",
     },
   ];
+
   return (
     <Carousel interval={10000}>
       {items.map((item, i) => (
@@ -97,6 +100,51 @@ const Item = (props) => {
 
 function Landing(props) {
   const classes = useStyles();
+  const [err, setErr] = useState("");
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const handleFocus = (e) => {
+    setErr("");
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUser((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { password, password2 } = user;
+    const missingVals = Object.values(user).some((val) => val === "");
+    if (missingVals) {
+      setErr("Please fill out all required information.");
+    }
+
+    if (password !== password2) {
+      setErr("Passwords do not match.");
+    }
+
+    // try {
+    //   const response = await fetch("/user/register", {
+    //     method: "POST",
+    //     body: JSON.stringify({ user }),
+    //     headers: { "Content-type": "application/json" },
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Typography component="div" style={{ height: "100%" }}>
@@ -109,60 +157,78 @@ function Landing(props) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <Typography component="h6" variant="h6" className={classes.error}>
+            {err}
+          </Typography>
+
+          <form className={classes.form} onSubmit={handleSubmit} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
-                  autoComplete="fname"
                   name="firstName"
+                  id="firstName"
+                  label="First Name"
+                  value={user.firstName}
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
                   autoFocus
+                  onChange={handleChange}
+                  onFocus={handleFocus}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
+                  name="lastName"
                   id="lastName"
                   label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
+                  value={user.lastName}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  onChange={handleChange}
+                  onFocus={handleFocus}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
+                  name="email"
                   id="email"
                   label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  value={user.email}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  onChange={handleChange}
+                  onFocus={handleFocus}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  name="password"
+                  id="password"
+                  label="Password"
+                  value={user.password}
+                  type="password"
                   variant="outlined"
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
+                  onChange={handleChange}
+                  onFocus={handleFocus}
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  name="password2"
+                  id="password2"
+                  label="Confirm Password"
+                  value={user.password2}
+                  type="password"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  onChange={handleChange}
+                  onFocus={handleFocus}
                 />
               </Grid>
             </Grid>

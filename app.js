@@ -4,7 +4,6 @@ require("dotenv").config();
 const express = require("express"),
   app = express(),
   passport = require("passport"),
-  LocalStrategy = require("passport-local"),
   GoogleStrategy = require("passport-google-oauth20").Strategy,
   session = require("express-session"),
   port = process.env.PORT || 5000;
