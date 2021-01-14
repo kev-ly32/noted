@@ -8,7 +8,8 @@ const express = require("express"),
   session = require("express-session"),
   port = process.env.PORT || 5000;
 
-const noteRoutes = require("./Routes/Notes");
+const noteRoutes = require("./Routes/Notes"),
+  authRoutes = require("./Routes/Auth");
 
 //Initialize express parser (body parser) to parse our requests to the server
 app.use(express.urlencoded({ extended: true }));
@@ -28,5 +29,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/notes", noteRoutes);
+app.use("/user", authRoutes);
 
 app.listen(port, () => console.log(`App listening on port ${port}`));

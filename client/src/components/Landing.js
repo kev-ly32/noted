@@ -43,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: "red",
   },
+  inputError: {
+    color: "red",
+    borderColor: "red",
+  },
 }));
 
 const LandingCarousel = () => {
@@ -124,27 +128,27 @@ function Landing(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { password, password2 } = user;
+    const { email, password, password2 } = user;
     const missingVals = Object.values(user).some((val) => val === "");
     if (missingVals) {
-      setErr("Please fill out all required information.");
+      return setErr("Please fill out all required information.");
+    } else if (password !== password2) {
+      return setErr("Passwords do not match.");
+    } else if (!email.match(/\w+@\w+\.\w+/)) {
+      return setErr('Email must be in the format "example@email.com"');
+    } else {
+      try {
+        const response = await fetch("/user/register", {
+          method: "POST",
+          body: JSON.stringify({ user }),
+          headers: { "Content-type": "application/json" },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-
-    if (password !== password2) {
-      setErr("Passwords do not match.");
-    }
-
-    // try {
-    //   const response = await fetch("/user/register", {
-    //     method: "POST",
-    //     body: JSON.stringify({ user }),
-    //     headers: { "Content-type": "application/json" },
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
-
+  console.log(props);
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Typography component="div" style={{ height: "100%" }}>
@@ -161,7 +165,7 @@ function Landing(props) {
             {err}
           </Typography>
 
-          <form className={classes.form} onSubmit={handleSubmit} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -170,11 +174,18 @@ function Landing(props) {
                   label="First Name"
                   value={user.firstName}
                   variant="outlined"
-                  required
                   fullWidth
                   autoFocus
                   onChange={handleChange}
                   onFocus={handleFocus}
+                  InputLabelProps={{
+                    classes: {
+                      root:
+                        err !== "" && user.firstName === ""
+                          ? classes.inputError
+                          : null,
+                    },
+                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -184,7 +195,6 @@ function Landing(props) {
                   label="Last Name"
                   value={user.lastName}
                   variant="outlined"
-                  required
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -197,7 +207,6 @@ function Landing(props) {
                   label="Email Address"
                   value={user.email}
                   variant="outlined"
-                  required
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -211,7 +220,6 @@ function Landing(props) {
                   value={user.password}
                   type="password"
                   variant="outlined"
-                  required
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -225,7 +233,6 @@ function Landing(props) {
                   value={user.password2}
                   type="password"
                   variant="outlined"
-                  required
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
