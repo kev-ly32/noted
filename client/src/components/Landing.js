@@ -147,8 +147,8 @@ function Landing({ setLoggedIn, setUserInfo }) {
         if (data.error) {
           setErr(data.msg);
         } else {
-          setLoggedIn(true);
           setUserInfo(data.user);
+          setLoggedIn(true);
         }
       } catch (error) {
         console.log(error);
