@@ -44,6 +44,7 @@ passport.use(
         ]);
 
         let result = await bcrypt.compare(password, data.rows[0].password);
+        done(null, result);
         //ADD IN CASE HANDLING
       } catch (error) {
         console.log(error);

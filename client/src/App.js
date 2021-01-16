@@ -44,7 +44,11 @@ function App() {
               )}
             </Route>
             <Route path="/dashboard">
-              {!loggedIn ? <Redirect to="/" /> : <Dashboard />}
+              {!loggedIn ? (
+                <Redirect to="/" />
+              ) : (
+                <Dashboard userInfo={userInfo} />
+              )}
             </Route>
           </Switch>
           <Footer />

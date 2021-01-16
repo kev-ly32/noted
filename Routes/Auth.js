@@ -27,4 +27,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.status(200).json({ msg: "Successfully logged out" });
+});
+
 module.exports = router;

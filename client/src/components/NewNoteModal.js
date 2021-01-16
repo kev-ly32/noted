@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NewNoteModal({
+  userInfo,
   open,
   setOpen,
   notes,
@@ -44,7 +45,7 @@ function NewNoteModal({
     e.preventDefault();
     let route = "/notes";
     let method = "POST";
-    let noteData = { text, xPos: 0, yPos: 0, user_id: 3 };
+    let noteData = { text, xPos: 0, yPos: 0, user_id: userInfo.id };
     if (editMode) {
       route = `/notes/${notePlaceholder.id}`;
       method = "PUT";

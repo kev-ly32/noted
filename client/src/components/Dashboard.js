@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Dashboard(props) {
+function Dashboard({ userInfo }) {
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [notes, setNotes] = useState([]);
@@ -86,6 +86,7 @@ function Dashboard(props) {
               setNotePlaceholder={setNotePlaceholder}
             />
             <NewNoteModal
+              userInfo={userInfo}
               open={open}
               setOpen={setOpen}
               notes={notes}

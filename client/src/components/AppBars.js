@@ -110,7 +110,13 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
     setAnchorEl(null);
   };
 
-  const handleLogOut = (e) => {
+  const handleLogOut = async (e) => {
+    e.preventDefault();
+    let response = await fetch("/user/logout", {
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data);
     setUserInfo({});
     setLoggedIn(false);
   };
