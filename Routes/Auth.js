@@ -7,16 +7,16 @@ const express = require("express"),
 router.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body.user;
   try {
-    await bcrypt.hash(password, saltRounds, (err, hash) => {
-      const data = db.query(
-        "INSERT INTO users (first_name, last_name, email, password) VALUES ($1,$2,$3,$4) RETURNING *",
-        [firstName, lastName, email, hash]
-      );
-      console.log(data);
-      res.status(200).json({ msg: "Your account has been Noted.", data });
-    });
+    let hashedPassword = await bcrypt.hash(password, saltRounds);
+    const data = await db.query(
+      "INSERT INTO users (first_name, last_name, email, password) VALUES ($1,$2,$3,$4) RETURNING *",
+      [firstName, lastName, email, hashedPassword]
+    );
+    res
+      .status(200)
+      .json({ msg: "Your account has been Noted.", user: data.rows[0] });
   } catch (error) {
-    console.log(error);
+    res.status(400).json({ msg: "Email already exists.", error });
   }
 });
 

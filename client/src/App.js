@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { Navbar, Footer } from "./components/AppBars";
 import Landing from "./components/Landing";
 import Dashboard from "./components/Dashboard";
@@ -19,24 +24,28 @@ const theme = createMuiTheme({
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  console.log(loggedIn, userInfo);
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div className="App">
-          <Navbar />
+          <Navbar
+            setLoggedIn={setLoggedIn}
+            setUserInfo={setUserInfo}
+            userInfo={userInfo}
+          />
 
           <Switch>
-            <Route
-              path="/"
-              render={() => (
-                <Landing
-                  setLoggedIn={setLoggedIn}
-                  setUserInfo={setUserInfo}
-                  userInfo={userInfo}
-                />
+            <Route path="/" exact>
+              {loggedIn ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <Landing setLoggedIn={setLoggedIn} setUserInfo={setUserInfo} />
               )}
-            />
-            <Route path="/dashboard" exact component={Dashboard} />
+            </Route>
+            <Route path="/dashboard">
+              {!loggedIn ? <Redirect to="/" /> : <Dashboard />}
+            </Route>
           </Switch>
           <Footer />
         </div>

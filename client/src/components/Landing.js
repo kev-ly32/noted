@@ -102,7 +102,7 @@ const Item = (props) => {
   );
 };
 
-function Landing(props) {
+function Landing({ setLoggedIn, setUserInfo }) {
   const classes = useStyles();
   const [err, setErr] = useState("");
   const [user, setUser] = useState({
@@ -143,12 +143,19 @@ function Landing(props) {
           body: JSON.stringify({ user }),
           headers: { "Content-type": "application/json" },
         });
+        const data = await response.json();
+        if (data.error) {
+          setErr(data.msg);
+        } else {
+          setLoggedIn(true);
+          setUserInfo(data.user);
+        }
       } catch (error) {
         console.log(error);
       }
     }
   };
-  console.log(props);
+
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Typography component="div" style={{ height: "100%" }}>
