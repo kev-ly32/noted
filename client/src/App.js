@@ -31,8 +31,8 @@ function App() {
         <div className="App">
           <Navbar
             setLoggedIn={setLoggedIn}
+            loggedIn={loggedIn}
             setUserInfo={setUserInfo}
-            userInfo={userInfo}
           />
 
           <Switch>

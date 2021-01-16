@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Navbar(props) {
+export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -108,6 +108,11 @@ export function Navbar(props) {
   };
   const handleClose = (e) => {
     setAnchorEl(null);
+  };
+
+  const handleLogOut = (e) => {
+    setUserInfo({});
+    setLoggedIn(false);
   };
 
   const openPopover = Boolean(anchorEl);
@@ -149,61 +154,69 @@ export function Navbar(props) {
               </Link>
             </Box>
             <Box display="flex" alignItems="center">
-              <Button color="inherit" onClick={handleClick}>
-                Sign In
-              </Button>
-              <Popover
-                id={id}
-                open={openPopover}
-                onClose={handleClose}
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                classes={{ paper: classes.signIn }}
-              >
-                <Typography gutterBottom component="h1" variant="h5">
-                  Sign In
-                </Typography>
-                <form className={classes.form} noValidate>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        variant="outlined"
-                        fullWidth
-                        required
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        variant="outlined"
-                        fullWidth
-                        required
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                      />
-                    </Grid>
-                  </Grid>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                  >
+              {loggedIn ? (
+                <Button color="inherit" onClick={handleLogOut}>
+                  Log out
+                </Button>
+              ) : (
+                <>
+                  <Button color="inherit" onClick={handleClick}>
                     Sign In
                   </Button>
-                </form>
-              </Popover>
-              <Button color="inherit">Register</Button>
+                  <Popover
+                    id={id}
+                    open={openPopover}
+                    onClose={handleClose}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    classes={{ paper: classes.signIn }}
+                  >
+                    <Typography gutterBottom component="h1" variant="h5">
+                      Sign In
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            required
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            required
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                          />
+                        </Grid>
+                      </Grid>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                      >
+                        Sign In
+                      </Button>
+                    </form>
+                  </Popover>
+                  <Button color="inherit">Register</Button>
+                </>
+              )}
             </Box>
           </Box>
         </Toolbar>
