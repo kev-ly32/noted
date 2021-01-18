@@ -95,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(2, 0, 0),
   },
+  error: {
+    color: "red",
+  },
 }));
 
 export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
@@ -102,12 +105,47 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [err, setErr] = useState("");
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
   const handleClose = (e) => {
     setAnchorEl(null);
+  };
+
+  const handleFocus = (e) => {
+    setErr("");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    e.preventDefault();
+    setCredentials((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async (e) => {
+    const { email, password } = credentials;
+    e.preventDefault();
+    if (email === "" || password === "") {
+      return setErr("Required information missing");
+    }
+    const response = await fetch("/user/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+      headers: { "Content-type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.error) {
+      setErr(data.msg);
+    } else {
+      setUserInfo(data);
+      setLoggedIn(true);
+    }
   };
 
   const handleLogOut = async (e) => {
@@ -184,17 +222,33 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
                     <Typography gutterBottom component="h1" variant="h5">
                       Sign In
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <Typography
+                      gutterBottom
+                      component="h4"
+                      variant="h5"
+                      className={classes.error}
+                    >
+                      {err}
+                    </Typography>
+                    <form
+                      className={classes.form}
+                      onSubmit={handleLogin}
+                      noValidate
+                    >
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
                           <TextField
                             variant="outlined"
                             fullWidth
                             required
-                            id="email"
+                            id="navEmail"
                             label="Email Address"
                             name="email"
                             autoComplete="email"
+                            value={credentials.email}
+                            onChange={handleChange}
+                            onFocus={handleFocus}
+                            autoFocus
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -205,8 +259,11 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
                             name="password"
                             label="Password"
                             type="password"
-                            id="password"
+                            id="navPassword"
                             autoComplete="current-password"
+                            value={credentials.password}
+                            onChange={handleChange}
+                            onFocus={handleFocus}
                           />
                         </Grid>
                       </Grid>

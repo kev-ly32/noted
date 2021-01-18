@@ -1,3 +1,5 @@
+const passport = require("passport");
+
 const express = require("express"),
   bcrypt = require("bcrypt"),
   saltRounds = 10,
@@ -25,6 +27,29 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     res.status(400).json({ msg: "Email already exists.", error });
   }
+});
+
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user) => {
+    //internal error
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ msg: err, error: err });
+    }
+    //if user cannot be found
+    // if (!user) {
+    //   return res
+    //     .status(400)
+    //     .json({ msg: "Invalid email or password. Authenticate2", error: err });
+    // }
+    //login user
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.status(400).json({ msg: "Error logging in", error: err });
+      }
+      return res.json(user);
+    });
+  })(req, res, next);
 });
 
 router.get("/logout", (req, res) => {

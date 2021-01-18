@@ -24,7 +24,6 @@ const theme = createMuiTheme({
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-  console.log(loggedIn, userInfo);
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -33,6 +32,7 @@ function App() {
             setLoggedIn={setLoggedIn}
             loggedIn={loggedIn}
             setUserInfo={setUserInfo}
+            userInfo={userInfo}
           />
 
           <Switch>

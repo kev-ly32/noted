@@ -42,12 +42,18 @@ passport.use(
         const data = await db.query("SELECT * FROM users WHERE email = $1", [
           email,
         ]);
+        if (data.rows.length < 1) {
+          throw "Invalid email or password.";
+        }
 
         let result = await bcrypt.compare(password, data.rows[0].password);
-        done(null, result);
-        //ADD IN CASE HANDLING
+        if (result) {
+          done(null, data.rows[0]);
+        } else {
+          throw "Invalid email or password.";
+        }
       } catch (error) {
-        console.log(error);
+        return done(error);
       }
     }
   )
