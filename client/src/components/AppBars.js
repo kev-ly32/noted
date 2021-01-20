@@ -140,11 +140,13 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
+    console.log(data);
     if (data.error) {
       setErr(data.msg);
     } else {
       setUserInfo(data);
       setLoggedIn(true);
+      localStorage.setItem("user", JSON.stringify(data));
     }
   };
 

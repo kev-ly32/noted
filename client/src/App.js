@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -24,6 +24,14 @@ const theme = createMuiTheme({
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    if (loggedInUser) {
+      setUserInfo(loggedInUser);
+      setLoggedIn(true);
+    }
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Router>

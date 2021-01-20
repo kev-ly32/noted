@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
   try {
     let hashedPassword = await bcrypt.hash(password, saltRounds);
     const data = await db.query(
-      "INSERT INTO users (first_name, last_name, email, password) VALUES ($1,$2,$3,$4) RETURNING id, first_name, last_name, email",
+      "INSERT INTO users (first_name, last_name, email, password) VALUES ($1,$2,$3,$4) RETURNING *",
       [firstName, lastName, email, hashedPassword]
     );
     req.login(data.rows[0], (err) => {
@@ -36,12 +36,6 @@ router.post("/login", (req, res, next) => {
       console.log(err);
       return res.status(400).json({ msg: err, error: err });
     }
-    //if user cannot be found
-    // if (!user) {
-    //   return res
-    //     .status(400)
-    //     .json({ msg: "Invalid email or password. Authenticate2", error: err });
-    // }
     //login user
     req.logIn(user, (err) => {
       if (err) {

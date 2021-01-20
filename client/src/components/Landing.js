@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -149,12 +149,17 @@ function Landing({ setLoggedIn, setUserInfo }) {
         } else {
           setUserInfo(data.user);
           setLoggedIn(true);
+          localStorage.setItem("user", JSON.stringify(data.user));
         }
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <Container maxWidth="lg" className={classes.container}>
