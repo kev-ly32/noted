@@ -22,8 +22,10 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import HomeIcon from "@material-ui/icons/Home";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -192,12 +194,12 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
               >
                 <MenuIcon />
               </IconButton>
-              <Link
+              {/* <Link
                 to="/dashboard"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Button>Dashboard</Button>
-              </Link>
+              </Link> */}
             </Box>
             <Box display="flex" alignItems="center">
               {loggedIn ? (
@@ -309,16 +311,16 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
           <Link to="/">
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItem>
           </Link>
 
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Dashboard", "Settings"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <DashboardIcon /> : <SettingsIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -326,10 +328,10 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
+          {["All mail", "Logout"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <SettingsIcon /> : <ExitToAppIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
