@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   },
   signIn: {
     padding: "20px",
-    maxWidth: "300px",
+    width: "300px",
   },
   submit: {
     margin: theme.spacing(2, 0, 0),
@@ -194,12 +194,6 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
               >
                 <MenuIcon />
               </IconButton>
-              {/* <Link
-                to="/dashboard"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Button>Dashboard</Button>
-              </Link> */}
             </Box>
             <Box display="flex" alignItems="center">
               {loggedIn ? (
@@ -281,7 +275,6 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
                       </Button>
                     </form>
                   </Popover>
-                  <Button color="inherit">Register</Button>
                 </>
               )}
             </Box>
@@ -308,7 +301,7 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
         </div>
         <Divider />
         <List>
-          <Link to="/">
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             <ListItem button>
               <ListItemIcon>
                 <HomeIcon />
@@ -328,7 +321,7 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
         </List>
         <Divider />
         <List>
-          {["All mail", "Logout"].map((text, index) => (
+          {["All mail", "Theme"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <SettingsIcon /> : <ExitToAppIcon />}
