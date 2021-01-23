@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -22,10 +21,10 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import HomeIcon from "@material-ui/icons/Home";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import InvertColorsIcon from "@material-ui/icons/InvertColors";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -102,13 +101,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
+export function Navbar({ setLoggedIn, setUserInfo, loggedIn, userInfo }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [err, setErr] = useState("");
+  const [loginErr, setLoginErr] = useState("");
+  const [sideBarErr, setSideBarErr] = useState("");
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -118,7 +118,13 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
   };
 
   const handleFocus = (e) => {
-    setErr("");
+    setLoginErr("");
+  };
+
+  const handleSidebarClick = () => {
+    if (!loggedIn) {
+      setSideBarErr("Please log in.");
+    }
   };
 
   const handleChange = (e) => {
@@ -134,7 +140,7 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
     const { email, password } = credentials;
     e.preventDefault();
     if (email === "" || password === "") {
-      return setErr("Required information missing");
+      return setLoginErr("Required information missing");
     }
     const response = await fetch("/user/login", {
       method: "POST",
@@ -144,7 +150,7 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
     const data = await response.json();
     console.log(data);
     if (data.error) {
-      setErr(data.msg);
+      setLoginErr(data.msg);
     } else {
       setUserInfo(data);
       setLoggedIn(true);
@@ -171,6 +177,7 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
   };
 
   const handleDrawerClose = () => {
+    setSideBarErr("");
     setOpen(false);
   };
 
@@ -194,6 +201,9 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
               >
                 <MenuIcon />
               </IconButton>
+              {loggedIn ? (
+                <Typography>Welcome, {userInfo.first_name}</Typography>
+              ) : null}
             </Box>
             <Box display="flex" alignItems="center">
               {loggedIn ? (
@@ -223,10 +233,10 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
                     <Typography
                       gutterBottom
                       component="h4"
-                      variant="h5"
+                      variant="h6"
                       className={classes.error}
                     >
-                      {err}
+                      {loginErr}
                     </Typography>
                     <form
                       className={classes.form}
@@ -301,19 +311,17 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
         </div>
         <Divider />
         <List>
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
-          </Link>
+          <ListItem button onClick={handleSidebarClick}>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
 
-          {["Dashboard", "Settings"].map((text, index) => (
-            <ListItem button key={text}>
+          {["Dashboard", "Theme"].map((text, index) => (
+            <ListItem button key={text} onClick={handleSidebarClick}>
               <ListItemIcon>
-                {index % 2 === 0 ? <DashboardIcon /> : <SettingsIcon />}
+                {index % 2 === 0 ? <DashboardIcon /> : <InvertColorsIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -321,15 +329,20 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn }) {
         </List>
         <Divider />
         <List>
-          {["All mail", "Theme"].map((text, index) => (
-            <ListItem button key={text}>
+          {["Settings"].map((text, index) => (
+            <ListItem button key={text} onClick={handleSidebarClick}>
               <ListItemIcon>
-                {index % 2 === 0 ? <SettingsIcon /> : <ExitToAppIcon />}
+                {index % 2 === 0 ? <SettingsIcon /> : null}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
+        {!loggedIn && sideBarErr ? (
+          <ListItem>
+            <ListItemText primary={sideBarErr} className={classes.error} />
+          </ListItem>
+        ) : null}
       </Drawer>
     </div>
   );
