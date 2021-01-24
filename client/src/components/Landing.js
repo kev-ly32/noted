@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Container,
   Typography,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LandingCarousel = () => {
+const LandingCarousel = ({ scroll }) => {
   const items = [
     {
       name: "Keep track of your tasks.",
@@ -68,13 +68,13 @@ const LandingCarousel = () => {
   return (
     <Carousel interval={10000}>
       {items.map((item, i) => (
-        <Item key={i} item={item} />
+        <Item key={i} item={item} scroll={scroll} />
       ))}
     </Carousel>
   );
 };
 
-const Item = (props) => {
+const Item = ({ item, scroll }) => {
   return (
     <Paper elevation={4}>
       <Box display="flex" alignItems="center" style={{ padding: "3%" }}>
@@ -84,16 +84,21 @@ const Item = (props) => {
           flexDirection="column"
           alignItems="flex-end"
         >
-          <h2>{props.item.name}</h2>
-          <p>{props.item.description}</p>
-          <Button color="primary" variant="contained" className="CheckButton">
+          <h2>{item.name}</h2>
+          <p>{item.description}</p>
+          <Button
+            onClick={scroll}
+            color="primary"
+            variant="contained"
+            className="CheckButton"
+          >
             Get Started
           </Button>
         </Box>
         <Box flex={1} display="flex" justifyContent="center">
           <img
             style={{ width: "60%", height: "300px" }}
-            src={props.item.image}
+            src={item.image}
             alt="Landing Checklist"
           />
         </Box>
@@ -104,6 +109,7 @@ const Item = (props) => {
 
 function Landing({ setLoggedIn, setUserInfo }) {
   const classes = useStyles();
+  const registerRef = useRef(null);
   const [err, setErr] = useState("");
   const [user, setUser] = useState({
     firstName: "",
@@ -112,6 +118,9 @@ function Landing({ setLoggedIn, setUserInfo }) {
     password: "",
     password2: "",
   });
+
+  const scrollToForm = () =>
+    registerRef.current.scrollIntoView({ behavior: "smooth" });
 
   const handleFocus = (e) => {
     setErr("");
@@ -164,7 +173,7 @@ function Landing({ setLoggedIn, setUserInfo }) {
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Typography component="div" style={{ height: "100%" }}>
-        <LandingCarousel />
+        <LandingCarousel scroll={scrollToForm} />
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -177,7 +186,11 @@ function Landing({ setLoggedIn, setUserInfo }) {
             {err}
           </Typography>
 
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <form
+            ref={registerRef}
+            className={classes.form}
+            onSubmit={handleSubmit}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
