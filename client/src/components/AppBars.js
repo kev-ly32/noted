@@ -372,18 +372,42 @@ export function Footer(props) {
           </Typography>
         </Box>
         <Box flex={1} display="flex" justifyContent="flex-end">
-          <IconButton color="inherit" className={classes.icon}>
-            <FacebookIcon />
-          </IconButton>
-          <IconButton color="inherit" className={classes.icon}>
-            <TwitterIcon />
-          </IconButton>
-          <IconButton color="inherit" className={classes.icon}>
-            <InstagramIcon />
-          </IconButton>
-          <IconButton color="inherit" className={classes.icon}>
-            <LinkedInIcon />
-          </IconButton>
+          <a
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton color="inherit" className={classes.icon}>
+              <FacebookIcon />
+            </IconButton>
+          </a>
+          <a
+            href="https://www.twitter.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton color="inherit" className={classes.icon}>
+              <TwitterIcon />
+            </IconButton>
+          </a>
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton color="inherit" className={classes.icon}>
+              <InstagramIcon />
+            </IconButton>
+          </a>
+          <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton color="inherit" className={classes.icon}>
+              <LinkedInIcon />
+            </IconButton>
+          </a>
         </Box>
       </Box>
     </Toolbar>
