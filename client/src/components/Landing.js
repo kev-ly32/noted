@@ -9,7 +9,6 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -42,10 +41,6 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: "red",
-  },
-  inputError: {
-    color: "red",
-    borderColor: "red",
   },
 }));
 
@@ -190,36 +185,33 @@ function Landing({ setLoggedIn, setUserInfo }) {
             ref={registerRef}
             className={classes.form}
             onSubmit={handleSubmit}
+            noValidate
           >
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   name="firstName"
                   id="firstName"
                   label="First Name"
                   value={user.firstName}
                   variant="outlined"
+                  error={err !== "" && user.firstName === "" ? true : false}
                   fullWidth
                   autoFocus
                   onChange={handleChange}
                   onFocus={handleFocus}
-                  InputLabelProps={{
-                    classes: {
-                      root:
-                        err !== "" && user.firstName === ""
-                          ? classes.inputError
-                          : null,
-                    },
-                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   name="lastName"
                   id="lastName"
                   label="Last Name"
                   value={user.lastName}
                   variant="outlined"
+                  error={err !== "" && user.lastName === "" ? true : false}
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -227,11 +219,13 @@ function Landing({ setLoggedIn, setUserInfo }) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   name="email"
                   id="email"
                   label="Email Address"
                   value={user.email}
                   variant="outlined"
+                  error={err !== "" && user.email === "" ? true : false}
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -239,12 +233,14 @@ function Landing({ setLoggedIn, setUserInfo }) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   name="password"
                   id="password"
                   label="Password"
                   value={user.password}
                   type="password"
                   variant="outlined"
+                  error={err !== "" && user.password === "" ? true : false}
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -252,12 +248,14 @@ function Landing({ setLoggedIn, setUserInfo }) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   name="password2"
                   id="password2"
                   label="Confirm Password"
                   value={user.password2}
                   type="password"
                   variant="outlined"
+                  error={err !== "" && user.password2 === "" ? true : false}
                   fullWidth
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -273,13 +271,6 @@ function Landing({ setLoggedIn, setUserInfo }) {
             >
               Sign Up
             </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Have have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
       </Typography>

@@ -257,6 +257,11 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn, userInfo }) {
                             onChange={handleChange}
                             onFocus={handleFocus}
                             autoFocus
+                            error={
+                              loginErr !== "" && credentials.email === ""
+                                ? true
+                                : false
+                            }
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -272,6 +277,11 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn, userInfo }) {
                             value={credentials.password}
                             onChange={handleChange}
                             onFocus={handleFocus}
+                            error={
+                              loginErr !== "" && credentials.password === ""
+                                ? true
+                                : false
+                            }
                           />
                         </Grid>
                       </Grid>
