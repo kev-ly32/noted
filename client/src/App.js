@@ -58,6 +58,7 @@ function App() {
                 <Dashboard userInfo={userInfo} />
               )}
             </Route>
+            <Route render={() => <Redirect to="/dashboard" />} />
           </Switch>
           <Footer />
         </div>
