@@ -8,7 +8,8 @@ const express = require("express"),
   session = require("express-session"),
   bcrypt = require("bcrypt"),
   db = require("./db"),
-  port = process.env.PORT || 5000;
+  port = process.env.PORT || 5000,
+  path = require("path");
 
 const noteRoutes = require("./Routes/Notes"),
   authRoutes = require("./Routes/Auth");
@@ -16,6 +17,10 @@ const noteRoutes = require("./Routes/Notes"),
 //Initialize express parser (body parser) to parse our requests to the server
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client", "build")));
+}
 
 //Configure express-session
 app.use(
@@ -71,5 +76,9 @@ passport.deserializeUser(async (id, done) => {
 
 app.use("/notes", noteRoutes);
 app.use("/user", authRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}`));
