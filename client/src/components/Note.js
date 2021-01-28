@@ -46,6 +46,7 @@ function Note({
   const handleDelete = async (e) => {
     e.preventDefault();
     const note_id = e.currentTarget.id;
+    console.log(note_id);
     try {
       await fetch(`/notes/${note_id}`, {
         method: "DELETE",

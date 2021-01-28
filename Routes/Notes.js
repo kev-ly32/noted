@@ -58,7 +58,9 @@ router.put("/:noteid", async (req, res) => {
 });
 
 router.delete("/:noteid", async (req, res) => {
+  console.log(req.params.noteid);
   const note_id = req.params.noteid;
+  console.log(note_id);
 
   try {
     await db.query("DELETE FROM notes WHERE note_id = $1", [note_id]);
