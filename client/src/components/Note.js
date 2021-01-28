@@ -42,11 +42,9 @@ function Note({
 }) {
   let newNotes = [...notes];
   const classes = useStyles();
-  console.log(notes);
   const handleDelete = async (e) => {
     e.preventDefault();
     const note_id = e.currentTarget.id;
-    console.log(note_id);
     try {
       await fetch(`/notes/${note_id}`, {
         method: "DELETE",
@@ -55,7 +53,6 @@ function Note({
       const remainingNotes = notes.filter(
         (note) => note.note_id !== Number(note_id)
       );
-      console.log(remainingNotes);
       setNotes(remainingNotes);
     } catch (error) {
       console.log(error);

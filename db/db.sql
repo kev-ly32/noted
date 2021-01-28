@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE notes (
-    note_id BIGSERIAL PRIMARY KEY,
+    note_id SERIAL PRIMARY KEY,
     text TEXT,
     xpos INTEGER,
     ypos INTEGER,
