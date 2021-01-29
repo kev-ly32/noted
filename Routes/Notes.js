@@ -5,10 +5,9 @@ const express = require("express"),
 router.get("/", async (req, res) => {
   const userId = req.user.id;
   try {
-    const data = await db.query(
-      "SELECT * FROM users INNER JOIN notes ON users.id = notes.user_id WHERE id = $1;",
-      [userId]
-    );
+    const data = await db.query("SELECT * FROM notes WHERE user_id = $1;", [
+      userId,
+    ]);
     const notes = data.rows;
     res.status(200).json(notes);
   } catch (error) {
