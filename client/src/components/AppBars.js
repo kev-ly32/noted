@@ -154,7 +154,10 @@ export function Navbar({ setLoggedIn, setUserInfo, loggedIn, userInfo }) {
     } else {
       setUserInfo(data);
       setLoggedIn(true);
-      localStorage.setItem("user", JSON.stringify(data.first_name));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ id: data.id, first_name: data.first_name })
+      );
     }
   };
 
